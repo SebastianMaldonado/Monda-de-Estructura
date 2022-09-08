@@ -1,60 +1,60 @@
-public class Generador_Arbol {
-  ArrayList <String> etiquetas;
+public class Pintor {
+  ArrayList <String> tags;
   
-  public Generador_Arbol () {
-    this.etiquetas = null;
+  public Pintor () {
+    this.tags = null;
   }
   
   
-  public void asignarLista (ArrayList <String> etiquetas) {
-    this.etiquetas = etiquetas;
+  public void Nom_List (ArrayList <String> tags) {
+    this.tags = tags;
   }
   
   //-------------------------|Generar Árbol|-------------------------//
-  public void generarArbol (Nodo raiz, int pos) {
-    if (pos > etiquetas.size() && pos <= 0)  //Fin de la Lista
+  public void mostrararbol (Nodo raiz, int colocacion) {
+    if (colocacion > tags.size() && colocacion <= 0)  //Fin de la Lista
       return;
       
-    if (etiquetas.get(pos).substring(0, 1).equals("/"))  //Fin del Nodo
+    if (tags.get(colocacion).substring(0, 1).equals("/"))  //Fin del Nodo
       return;
     
-    if (excepciones(pos))  //Excepciones
+    if (validaciones(colocacion))  // Validaciones
       return;
 
-    for (int i = pos + 1; i < finCadena(etiquetas.get(pos), pos); i++) {
-      //println("-> Estando en: " + pos);
-      //println("Generado hijo de " + raiz.nombre +" : \n\t" + i + "  " + etiquetas.get(i));
+    for (int i = colocacion + 1; i < texto_f(tags.get(colocacion), colocacion); i++) {
+      //println("-> Estando en: " + colocacion);
+      //println("Generado hijo de " + raiz.nombre +" : \n\t" + i + "  " + tags.get(i));
       
       //Crear el Nuevo Hijo
-      Nodo nuevo = new Nodo (etiquetas.get(i), i);
+      Nodo nuevo = new Nodo (tags.get(i), i);
       raiz.añadirHijo(nuevo);
-      generarArbol (nuevo, i);
+      mostrararbol (nuevo, i);
       
-      int pos_temp = finCadena (etiquetas.get(i), i);
-      if (pos_temp > 0)
-        i = pos_temp;
-      //println(etiquetas.get(i) + "  " + i );
+      int ubicacion_aux = texto_f (tags.get(i), i);
+      if (ubicacion_aux > 0)
+        i = ubicacion_aux;
+      //println(tags.get(i) + "  " + i );
     }
   }
   
-  public boolean excepciones (int pos) {
-    if (etiquetas.get(pos).equals("meta") 
-    || etiquetas.get(pos).equals("script")
-    || etiquetas.get(pos).equals("title")
-    || etiquetas.get(pos).equals("link"))
+  public boolean validaciones (int colocacion) {
+    if (tags.get(colocacion).equals("meta") 
+    || tags.get(colocacion).equals("script")
+    || tags.get(colocacion).equals("title")
+    || tags.get(colocacion).equals("link"))
       return true;
     else
       return false;
   }
   
-  public int finCadena (String busqueda, int pos) {
-     int pos_temp = pos + 1;
+  public int texto_f (String busqueda, int colocacion) {
+     int ubicacion_aux = colocacion + 1;
      
      //Recorrer hasta encontrar el cierre
-     while (pos_temp < etiquetas.size()) {
-       if (etiquetas.get(pos_temp).equals("/" + etiquetas.get(pos)))
-         return pos_temp;
-       pos_temp += 1;
+     while (ubicacion_aux < tags.size()) {
+       if (tags.get(ubicacion_aux).equals("/" + tags.get(colocacion)))
+         return ubicacion_aux;
+       ubicacion_aux += 1;
      }
      
      return 0;
